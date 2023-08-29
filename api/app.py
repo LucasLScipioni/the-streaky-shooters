@@ -1,5 +1,6 @@
 
 from flask import Flask, request, jsonify
+from flask_cors import CORS  # Import CORS
 import threading
 import torch
 import torch.nn as nn
@@ -10,6 +11,7 @@ import random
 import os
 
 app = Flask(__name__)
+cors = CORS(app, resources={r"*": {"origins": "http://localhost:5002"}})
 
 def GetModel(modelName):
     if modelName == 'resnet18':
