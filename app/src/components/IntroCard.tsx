@@ -1,13 +1,17 @@
 import './IntroCard.sass'
 import CourtsideImage from '../assets/court-side.png';
 import useGameStore from '../store/gameStore';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 function IntroCard() {
   
   const gameStore = useGameStore();
 
   const [playerName, setPlayerName] = useState('');
+
+  useEffect(() => {
+    gameStore.resetGame();
+  }, []);
 
   return (
     <>

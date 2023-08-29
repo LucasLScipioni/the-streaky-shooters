@@ -172,7 +172,7 @@ def get_output_json():
             return jsonify(data)
     except FileNotFoundError:
         data = {
-            'selectedVideo': '',
+            "selectedVideo": '',
             "videoSecond": 0,
             "Shots attemps": 0,
             "Shots Made": 0,
