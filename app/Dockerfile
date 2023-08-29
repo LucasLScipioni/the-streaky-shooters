@@ -8,16 +8,16 @@ WORKDIR /app
 COPY . /app
 
 # Install the app's dependencies
-RUN npm install
+RUN yarn
 
 # Copy the rest of the app's files to the working directory
 COPY . .
 
 # Build the React app
-RUN npm run build
+RUN yarn build
 
 # Expose the port the app runs on
 EXPOSE 5000
 
 # Define the command to run the app
-CMD ["npm", "start"]
+CMD ["yarn", "start"]
