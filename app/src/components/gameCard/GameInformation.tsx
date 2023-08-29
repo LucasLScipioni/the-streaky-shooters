@@ -14,7 +14,6 @@ function GameInformation() {
   const shotsAttempted = useGameStore((state) => state.gameInformation['Shots attemps']);
   const shotsMade = useGameStore((state) => state.gameInformation['Shots Made']);
   const shotsMissed = useGameStore((state) => state.gameInformation['Shots Missed']);
-  const isGameRunning = useGameStore((state) => state.isGameRunning);
 
   const FG = useGameStore((state) => state.gameInformation.FG);
 

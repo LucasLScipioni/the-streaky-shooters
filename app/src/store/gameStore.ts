@@ -35,7 +35,7 @@ const useGameStore = create<GameState>((set, get) => ({
         "Shots Made": 0,
         "Shots Missed": 0,
         "FG": 0,
-        'status':  'not_started'
+        'status': 'not_started'
     },
     gameStartedAt: '',
     setPlayerName: (playerName: string) => {
@@ -86,6 +86,7 @@ const useGameStore = create<GameState>((set, get) => ({
 
         set({
             gameInformation: {
+                "selectedVideo": "",
                 "videoSecond": 0,
                 "Shots attemps": 0,
                 "Shots Made": 0,
