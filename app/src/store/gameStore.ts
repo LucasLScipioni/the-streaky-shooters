@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import axios from "axios";
 
-const baseURL = "http://localhost:5000/";
+const baseURL = "http://localhost:5001/";
 
 interface GameInformation {
     "selectedVideo": string,
