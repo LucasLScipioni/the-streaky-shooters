@@ -1,0 +1,51 @@
+.game-card
+    display: flex
+    flex-direction: column
+    position: relative
+    width: 100%
+    max-width: 1288px
+    height: 100%
+    max-height: 976px
+
+    &__header
+        display: flex
+        justify-content: space-between
+        align-items: center
+        position: relative
+        padding: 52px 38px
+        width: 100%
+        height: 164px
+        border-radius: 16px 16px 0px 0px
+        background: linear-gradient(270deg, rgba(28, 0, 0, 0.73) 0%, rgba(224, 2, 2, 0.77) 100%)
+        backdrop-filter: blur(2px)
+
+        &-timer
+            position: absolute
+            top: 50%
+            left: 50%
+            transform: translateX(-50%) translateY(-50%)
+
+    &__logo
+        display: flex
+        justify-content: center
+        align-items: center
+        font-size: 49px
+
+        span
+            margin-left: 12px
+
+    &__username
+        font-size: 50px
+
+    &__content
+        width: 100%
+        height: 100%
+        border-radius: 0 0 16px 16px
+        background: linear-gradient(136deg, rgba(239, 238, 238, 0.32) 0%, rgba(239, 238, 238, 0.06) 100%)
+        backdrop-filter: blur(20px)
+
+    &__selected-video
+        position: absolute
+        bottom: 0
+        left: 50%
+        transform: translateX(-50%)
