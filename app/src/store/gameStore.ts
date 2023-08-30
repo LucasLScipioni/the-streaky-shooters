@@ -16,11 +16,14 @@ interface GameInformation {
 interface GameState {
     playerName: string,
     isGameRunning: boolean,
+    isGameOnCountdown: boolean,
+    isGameFinished: boolean,
     gameInformation: GameInformation,
     gameStartedAt: string,
+    toogleCountdown: (value: boolean) => void,
     setPlayerName: (playerName: string) => void
     startGame: () => void,
-    updateGame: () => void,
+    updateGame: (noRepeat?: boolean) => void,
     finishGame: () => void,
     resetGame: () => void,
 }
@@ -28,6 +31,8 @@ interface GameState {
 const useGameStore = create<GameState>((set, get) => ({
     playerName: '',
     isGameRunning: false,
+    isGameOnCountdown: false,
+    isGameFinished: false,
     gameInformation: {
         "selectedVideo": "",
         "videoSecond": 0,
@@ -38,6 +43,11 @@ const useGameStore = create<GameState>((set, get) => ({
         'status': 'not_started'
     },
     gameStartedAt: '',
+    toogleCountdown: (value: boolean) => {
+        set({
+            isGameOnCountdown: value
+        })
+    },
     setPlayerName: (playerName: string) => {
         set({
             playerName
@@ -57,32 +67,40 @@ const useGameStore = create<GameState>((set, get) => ({
             get().updateGame();
         });
     },
-    updateGame: () => {
-        if(!get().isGameRunning) return;
-
+    updateGame: (noRepeat?: boolean) => {
         axios
         .get<GameInformation>(`${baseURL}predict`)
         .then((response) => {
-            if(response.data.status !== 'in_progress') set({ isGameRunning: false})
-
             set({
-                gameInformation: response.data
+                isGameRunning: response.data.status === 'in_progress',
+                isGameFinished: response.data.status === 'completed',
             })
 
-            setTimeout(() => {
-                get().updateGame();
-            }, 500);
+            if(response.data.status !== 'completed') {
+                set({
+                    gameInformation: response.data
+                })
+            }
+
+            if(noRepeat) return;
+            
+            if(response.data.status !== 'completed') {
+                setTimeout(() => {
+                    get().updateGame();
+                }, 100);
+            }
         });
     },
     finishGame: () => {
         set({
             isGameRunning: false,
+            isGameFinished: true,
         });
+
+        axios.delete<GameInformation>(`${baseURL}predict`)
     },
     resetGame: () => {
         get().finishGame();
-        
-        axios.delete<GameInformation>(`${baseURL}predict`)
 
         set({
             gameInformation: {

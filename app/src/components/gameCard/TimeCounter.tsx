@@ -51,26 +51,31 @@ export const options: any = {
 };
 
 export function TimeCounter() {
-  const gameStartTime = useGameStore((state) => state.gameStartedAt);
-  const [count, setCount] = useState(0);
+  const isGameRunning = useGameStore((state) => state.isGameRunning);
+  const [count, setCount] = useState(24);
   const [graphInfo, setGraphInfo] = useState([0, 1000]);
 
   const gameStore = useGameStore();
 
   useEffect(() => {
-    if (gameStartTime !== '') {
-      countdown(0);
+    if (isGameRunning) {
+      setTimeout(() => {
+        const audio = new Audio('./public/sounds/playing_game.wav');
+        audio.play();
+      }, 3000)
+
+      countdown(24000);
     }
-  }, [gameStartTime]);
+  }, [isGameRunning]);
 
   const countdown = (elapsedTime: number) => {
     setTimeout(() => {
-      const newElapsedTime = elapsedTime + 10;
+      const newElapsedTime = elapsedTime - 10;
 
       setCount(newElapsedTime / 1000);
       setGraphInfo([newElapsedTime % 1000, 1000 - (newElapsedTime % 1000)]);
 
-      if (newElapsedTime >= 24000) {
+      if (newElapsedTime <= 0) {
         gameStore.finishGame();
         setCount(24);
         setGraphInfo([1, 0]);

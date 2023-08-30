@@ -45,6 +45,19 @@ def run_prediction(videoPath, modelPath, jsonPath, hoopCenter, hoopSize):
         prediction_in_progress = True
         prediction_status = 'in_progress'
 
+        data = {
+            "selectedVideo": videoPath,
+            "videoSecond": 0,
+            "Shots attemps": 0,
+            "Shots Made": 0,
+            "Shots Missed": 0,
+            "FG": 0,
+            'status':  prediction_status
+        }
+
+        with open(jsonPath, 'w') as json_file:
+            json.dump(data, json_file)
+
     try:
         # Run your shot prediction function here
         print('prediction started for video %s', (videoPath))
@@ -159,6 +172,8 @@ def shotPredict(videoPath, modelPath,jsonPath, hoopCenter,hoopSize):
         # Break the loop
         else:
             break
+
+    print("24 seconds finish")
     cap.release()
     
 
@@ -212,8 +227,21 @@ def delete_output_json():
 
     try:
         os.remove(jsonPath)
+
+        data = {
+            "selectedVideo": '',
+            "videoSecond": 0,
+            "Shots attemps": 0,
+            "Shots Made": 0,
+            "Shots Missed": 0,
+            "FG": 0,
+            'status':  'completed'
+        }
+
+        with open(jsonPath, 'w') as json_file:
+            json.dump(data, json_file)
         
-        prediction_status = 'not_started'
+        prediction_status = 'completed'
         prediction_in_progress = False
         return ('output file deleted', 202)
     except FileNotFoundError:

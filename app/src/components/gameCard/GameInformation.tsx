@@ -19,13 +19,10 @@ function GameInformation() {
 
   useEffect(() => {
     if(currentShotAttempt < shotsAttempted) {
-      console.log(`FG: last - ${currentFG} & total - ${FG}`)
 
       if(currentFG < FG || FG === 100) {
-        console.log(`add streak`);
         setStreak(streak + 1);
       } else {
-        console.log(`remove streak`);
         setStreak(0);
       }
 
