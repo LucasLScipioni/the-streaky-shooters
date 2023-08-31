@@ -60,9 +60,9 @@ export function TimeCounter() {
   useEffect(() => {
     if (isGameRunning) {
       setTimeout(() => {
-        const audio = new Audio('./public/sounds/playing_game.wav');
+        const audio = new Audio('./public/sounds/finishing_sound.wav');
         audio.play();
-      }, 3000)
+      }, 17000)
 
       countdown(24000);
     }
@@ -76,9 +76,14 @@ export function TimeCounter() {
       setGraphInfo([newElapsedTime % 1000, 1000 - (newElapsedTime % 1000)]);
 
       if (newElapsedTime <= 0) {
+        setTimeout(() => {
+          const audio = new Audio('./public/sounds/applause.wav');
+          audio.play();
+        }, 2000)
         gameStore.finishGame();
         setCount(24);
         setGraphInfo([1, 0]);
+        return;
       }
 
       countdown(newElapsedTime);

@@ -1,6 +1,6 @@
 import './StartCountdown.sass'
 import { useSpring, animated } from 'react-spring';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import useGameStore from '../../store/gameStore';
 
 function StartCountdown() {
@@ -15,8 +15,8 @@ function StartCountdown() {
     const InitiateCountdown = () => {
         gameStore.toogleCountdown(true);
 
-        const audio = new Audio('./public/sounds/countdown_bg2.wav');
-        audio.play();
+        /* const audio = new Audio('./public/sounds/countdown_bg2.wav');
+        audio.play(); */
     
         countdown(10000);
     };

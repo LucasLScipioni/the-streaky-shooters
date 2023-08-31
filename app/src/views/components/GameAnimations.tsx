@@ -24,7 +24,7 @@ function GameAnimations() {
           audio.play();
         setStreak(streak + 1);
       } else {
-          const audio = new Audio('./public/sounds/score.wav');
+          const audio = new Audio('./public/sounds/miss.wav');
           audio.play();
         setStreak(0);
       }
@@ -59,7 +59,7 @@ function GameAnimations() {
     setTimeout(() => {
       setAnimate(true);
     }, 100)
-  }, [streak])
+  }, [shotsAttempted])
 
   const shotWrapperClass = classNames({
     'game-animations__shot-wrapper': true,

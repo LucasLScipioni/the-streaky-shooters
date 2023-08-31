@@ -25,12 +25,8 @@ function Animations() {
     if(currentShotAttempt < shotsAttempted) {
 
       if(currentFG < FG || FG === 100) {
-          const audio = new Audio('./public/sounds/score.wav');
-          audio.play();
         setStreak(streak + 1);
       } else {
-          const audio = new Audio('./public/sounds/miss.wav');
-          audio.play();
         setStreak(0);
       }
 

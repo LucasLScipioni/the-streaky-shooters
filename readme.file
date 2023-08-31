@@ -1,0 +1,32 @@
+The first thing to do is to install docker & docker composer ( which i think you already did on your machine )
+
+After installing it all and making sure docker is running on your PC of choice, open a terminal in the root of this folder ( the same location as this readme )
+and run the command:
+
+docker-compose up --build
+
+This will take a couple of minutes to build up since it's creating a virtual machine on your PC, installing all dependencies and running all apps.
+
+Everything should go smoothly in this cenario, after the application is running you should be able to go directly to our application by entering the following links:
+
+LOGIN/STATUS - http://localhost:5002
+ANIMATIONS - http://localhost:5002/animations
+
+IF THIS DOESN'T WORK go to your  Docker Desktop app, search for the container "The-streaky-shooters", open it up, go to 'app-1' and click 
+on the icon right besides the port ( in 'app-1' case is '5002':'5000'), this should open up your browser with the application already running
+
+OBS.: Keep in mind that this project was created and tested on Chrome and may have many problems with Safari, so if you are using MAC, install chrome and run our app on it.
+
+To execute the project properly do the following:
+
+    -> Login with your name on login/status, await to see the status page
+    -> Click on "Click to start" ( the user has to interact with the page for it to be able to play sounds, if not no sound will come out, so we had to create this step )
+    -> Enjoy!
+
+To switch which video to see go to Line 209 on PY, which looks like this:
+
+video = random.choice([4801, 4802, 4803, 4804, 4805, 4806, 4807, 4808, 4809, 4810])
+
+And change it to a video of your choice, like this:
+
+video = random.choice([4804]);
