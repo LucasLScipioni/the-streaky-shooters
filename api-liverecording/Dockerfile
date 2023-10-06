@@ -11,13 +11,13 @@ COPY . /app
 RUN apt-get update && apt-get install -y libgl1-mesa-glx
 RUN apt-get install -y libglib2.0-0 libsm6 libxrender1 libxext6
 
-
 # Install PyTorch
 # You can choose one of the provided links to install PyTorch
 # For example, using the official PyTorch website:
-RUN pip3 install --no-cache-dir -r ./api/requirements.txt
+RUN pip3 install --no-cache-dir -r ./api-liverecording/requirements.txt
+RUN pip3 install --no-cache-dir -r ./api-liverecording/vmbpy-0.0.1-py3-none-any.whl
 
 EXPOSE 5000
 
 # Run the command when the container launches
-CMD ["python", "app.py"]
+CMD ["python", "VideoGrab.py"]

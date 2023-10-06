@@ -1,16 +1,28 @@
 version: "3.11"
 services:
-  api:
+
+  api-shotpredict:
     build:
       context: .
-      dockerfile: api/Dockerfile
+      dockerfile: api-shotpredict/Dockerfile
     ports:
       - "5001:5000"
     volumes:
-      - ./api:/app
-      - ./api/requirements.txt:/app/requirements.txt
+      - ./api-shotpredict:/app
+      - ./api-shotpredict/requirements.txt:/app/requirements.txt
     environment:
       - PYTHONUNBUFFERED=1
+
+  api-liverecording:
+    build:
+      context: .
+      dockerfile: api-liverecording/Dockerfile
+    volumes:
+      - ./api-liverecording:/app
+      - ./api-liverecording/requirements.txt:/app/requirements.txt
+    environment:
+      - PYTHONUNBUFFERED=1
+
   app:
     build:
       context: ./app
@@ -19,4 +31,3 @@ services:
     volumes:
       - ./app:/usr/src/app
     command: yarn dev
-    
