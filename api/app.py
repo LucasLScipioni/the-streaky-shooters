@@ -69,8 +69,7 @@ def run_prediction(videoPath, modelPath, jsonPath, hoopCenter, hoopSize):
             prediction_in_progress = False
 
 def shotPredict(videoPath, modelPath,jsonPath, hoopCenter,hoopSize):
-    global prediction_in_progress
-    
+
     transform = transforms.Compose([
         transforms.ToPILImage(),
         transforms.Resize(size=128),
@@ -93,7 +92,7 @@ def shotPredict(videoPath, modelPath,jsonPath, hoopCenter,hoopSize):
 
 
     count = 0
-    signal = [0,0,0,0,0,0]
+    signal = [0,0,0,0,0,0,0]
     flagNothing = True
     flagShot = False
     flagMade = False
@@ -101,7 +100,7 @@ def shotPredict(videoPath, modelPath,jsonPath, hoopCenter,hoopSize):
     miss = 0
     made = 0
     display = False
-    while(cap.isOpened() and prediction_in_progress):
+    while(cap.isOpened()):
     
     # Capture frame-by-frame
         ret, frame = cap.read()
@@ -110,16 +109,16 @@ def shotPredict(videoPath, modelPath,jsonPath, hoopCenter,hoopSize):
         dim = (int(width/2), int(height/2))
         if ret == True:
             frame = cv2.resize(frame,dim)
-            cropImage = frame[(hoopCenter[1] - 10*hoopSize[1]): (hoopCenter[1] + 10*hoopSize[1]),(hoopCenter[0] - 3* hoopSize[0]):(hoopCenter[0] + 3* hoopSize[0])]
+            cropImage = frame[(hoopCenter[1] - 10*hoopSize[1]): (hoopCenter[1] + 6*hoopSize[1]),(hoopCenter[0] - 3* hoopSize[0]):(hoopCenter[0] + 3* hoopSize[0])]
             cropImage_tensor = transform(cropImage)
             cropImage_tensor = cropImage_tensor.unsqueeze_(0)
             with torch.no_grad():
                 data = cropImage_tensor.to(mps_device)
                 out = model(data)
 
-                if out[0][1]>3.5:
+                if out[0][1]>6:
                     predIdx = 1
-                elif out[0][2] > out[0][1]:
+                elif (out[0][2] > out[0][1]) and (out[0][2]>3) :
                     predIdx = 2
                 else:
                     predIdx = 0
@@ -127,16 +126,16 @@ def shotPredict(videoPath, modelPath,jsonPath, hoopCenter,hoopSize):
             signal.pop(0)
             signal.append(predIdx)
             
-            if sum(signal) > 5 and flagNothing:
+            if sum(signal) > 2 and flagNothing:
                 attemps = attemps + 1
                 flagShot = True
                 flagNothing = False
             
-            if sum(signal) > 8 and flagShot and (not flagMade):
+            if sum(signal) > 7 and flagShot and (not flagMade):
                 made = made + 1
                 flagMade = True
             
-            if sum(signal) < 3 and flagShot:
+            if sum(signal) < 1 and flagShot:
                 if not flagMade:
                     miss = miss + 1
                 flagNothing = True
@@ -172,10 +171,7 @@ def shotPredict(videoPath, modelPath,jsonPath, hoopCenter,hoopSize):
         # Break the loop
         else:
             break
-
-    print("24 seconds finish")
     cap.release()
-    
 
 @app.route('/predict', methods=['GET'])
 def get_output_json():

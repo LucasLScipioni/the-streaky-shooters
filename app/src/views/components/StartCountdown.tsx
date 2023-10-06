@@ -15,8 +15,11 @@ function StartCountdown() {
     const InitiateCountdown = () => {
         gameStore.toogleCountdown(true);
 
-        /* const audio = new Audio('./public/sounds/countdown_bg2.wav');
-        audio.play(); */
+        setTimeout(
+            () => {
+            const audio = new Audio('./public/sounds/finishing_sound.wav');
+            audio.play();
+        }, 400)
     
         countdown(10000);
     };
@@ -37,11 +40,9 @@ function StartCountdown() {
             }
 
             if(newElapsedTime % 1000 === 0) {
-                if(newElapsedTime <= 0){
-                    const audio = new Audio('./public/sounds/buzzer.wav');
-                    audio.play();
-                } else {
+                if(newElapsedTime > 0){
                     const audio = new Audio('./public/sounds/beep.wav');
+                    audio.volume = 0.04;
                     audio.play();
                 }
             }

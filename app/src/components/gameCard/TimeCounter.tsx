@@ -59,11 +59,6 @@ export function TimeCounter() {
 
   useEffect(() => {
     if (isGameRunning) {
-      setTimeout(() => {
-        const audio = new Audio('./public/sounds/finishing_sound.wav');
-        audio.play();
-      }, 17000)
-
       countdown(24000);
     }
   }, [isGameRunning]);
@@ -72,14 +67,23 @@ export function TimeCounter() {
     setTimeout(() => {
       const newElapsedTime = elapsedTime - 10;
 
-      setCount(newElapsedTime / 1000);
+      setCount(Math.trunc(newElapsedTime / 1000));
       setGraphInfo([newElapsedTime % 1000, 1000 - (newElapsedTime % 1000)]);
 
+      if(newElapsedTime % 1000 === 0 && newElapsedTime < 11000 && newElapsedTime > 0) {
+        const audio = new Audio('./public/sounds/beep.wav');
+        audio.play();
+      }
+
       if (newElapsedTime <= 0) {
+        const audio = new Audio('./public/sounds/buzzer.wav');
+        audio.play();
+
         setTimeout(() => {
           const audio = new Audio('./public/sounds/applause.wav');
           audio.play();
-        }, 2000)
+        }, 500)
+
         gameStore.finishGame();
         setCount(24);
         setGraphInfo([1, 0]);
@@ -93,7 +97,7 @@ export function TimeCounter() {
   return (
     <div className="header-counter">
       <div className="header-counter__info">
-        <span className="header-counter__seconds"><i>{count.toFixed(0)}</i></span>
+        <span className="header-counter__seconds"><i>{count}</i></span>
         <span> sec </span>
       </div>
       <Chart options={options} series={graphInfo} type="pie" width={195} />

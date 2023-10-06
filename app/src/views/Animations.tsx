@@ -16,8 +16,6 @@ function Animations() {
   const [currentShotAttempt, setCurrentShotAttempt] = useState(0);
 
   const shotsAttempted = useGameStore((state) => state.gameInformation['Shots attemps']);
-  const shotsMade = useGameStore((state) => state.gameInformation['Shots Made']);
-  const shotsMissed = useGameStore((state) => state.gameInformation['Shots Missed']);
 
   const FG = useGameStore((state) => state.gameInformation.FG);
 
@@ -34,7 +32,7 @@ function Animations() {
     }
 
     setCurrentShotAttempt(shotsAttempted);
-  }, [FG, shotsAttempted, shotsMade, shotsMissed, currentFG, currentShotAttempt, streak])
+  }, [FG, shotsAttempted, currentFG, currentShotAttempt, streak])
 
   const animationsClass = classNames({
     'streaky-shooters-animations': true,
