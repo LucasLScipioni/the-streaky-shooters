@@ -19,6 +19,7 @@ RUN apt-get update && apt-get install -y \
     libsm6 \
     libxrender1 \
     libxext6 \
+    libc6 \
     sudo
 
 # Copy VimbaX_Setup-2023-1-Linux64.tar.gz to /tmp/
