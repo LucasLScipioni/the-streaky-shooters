@@ -7,15 +7,37 @@ WORKDIR /app
 # Copy the current directory contents into the container at /app
 COPY . /app
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y libgl1-mesa-glx
-RUN apt-get install -y libglib2.0-0 libsm6 libxrender1 libxext6
+# Atualize o sistema e instale as dependências
+RUN apt-get update && apt-get install -y \
+    wget \
+    unzip \
+    build-essential \
+    cmake \
+    libusb-1.0-0-dev \
+    libgl1-mesa-glx \
+    libglib2.0-0 \
+    libsm6 \
+    libxrender1 \
+    libxext6 \
+    sudo
 
-# Install PyTorch
-# You can choose one of the provided links to install PyTorch
-# For example, using the official PyTorch website:
+# Copy VimbaX_Setup-2023-1-Linux64.tar.gz to /tmp/
+COPY ./api-liverecording/VimbaX_Setup-2023-1-Linux64.tar.gz /tmp/
+
+# Extract VimbaX_Setup-2023-1-Linux64.tar.gz and run installation scripts
+RUN tar -xzvf /tmp/VimbaX_Setup-2023-1-Linux64.tar.gz -C /tmp/ && \
+    chmod +x /tmp/VimbaX_2023-1/cti/VimbaUSBTL_Install.sh && \
+    sudo /tmp/VimbaX_2023-1/cti/VimbaUSBTL_Install.sh && \
+    chmod +x /tmp/VimbaX_2023-1/cti/VimbaGigETL_Install.sh && \
+    sudo /tmp/VimbaX_2023-1/cti/VimbaGigETL_Install.sh && \
+    rm -rf /tmp/VimbaX_Setup-2023-1-Linux64 /tmp/VimbaX_Setup-2023-1-Linux64.tar.gz
+
+# Install Python dependencies
+RUN pip3 install --upgrade pip
 RUN pip3 install --no-cache-dir -r ./api-liverecording/requirements.txt
-RUN pip3 install --no-cache-dir -r ./api-liverecording/vmbpy-0.0.1-py3-none-any.whl
+
+# Install vmbpy from the extracted file
+RUN pip3 install --no-cache-dir /tmp/VimbaX_2023-1/api/python/vmbpy-1.0.2-py3-none-any.whl
 
 EXPOSE 5000
 

@@ -1,6 +1,5 @@
-version: '3.20'
+version: "3.25"
 services:
-
   api-shotpredict:
     build:
       context: .
@@ -20,6 +19,7 @@ services:
     volumes:
       - ./api-liverecording:/app
       - ./api-liverecording/requirements.txt:/app/requirements.txt
+    privileged: true
     environment:
       - PYTHONUNBUFFERED=1
 
